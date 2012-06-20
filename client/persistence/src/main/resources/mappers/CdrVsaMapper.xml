@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.cdr.dao.CdrVsaDao">
+
+    <resultMap id="cdrVsaResultMap" type="CdrVsa">
+        <id property="cdrVsaId" column="ID"/>
+        <result property="featureId" column="FEATURE_ID"/>
+        <result property="connectionId" column="CONNECTION_ID"/>
+        <result property="name" column="FEATURE_NAME"/>
+        <result property="forwardFromNumber" column="FWD_FROM_NUMBER"/>
+        <result property="status" column="STATUS"/>
+        <result property="featureTime" column="FEATURE_TIME"/>
+        <result property="forwardingReason" column="FWD_REASON"/>
+        <result property="forwardedNumber" column="FWD_NUMBER"/>
+        <result property="forwardSourceNumber" column="FWD_SRC_NUMBER"/>
+        <result property="forwardToNumber" column="FWD_TO_NUMBER"/>
+        <result property="calledNumber" column="CALLED_NUMBER"/>
+        <result property="callingNumber" column="CALLING_NUMBER"/>
+        <result property="legId" column="LEG_ID"/>
+        <!--<result property="originalRecord" column="ORIGINAL_RECORD"/>-->
+    </resultMap>
+
+    <select id="findCdrVsa" resultMap="cdrVsaResultMap" parameterType="String">
+        SELECT * FROM CDR_VSA WHERE CONNECTION_ID = #{connectionId}
+    </select>
+
+    <insert id="persistCdrVsa" parameterType="CdrVsa">
+        INSERT INTO CDR_VSA
+                (FEATURE_ID,
+                 CONNECTION_ID,
+                 FEATURE_NAME,
+                 FWD_FROM_NUMBER,
+                 STATUS,
+                    FEATURE_TIME,
+                    FWD_REASON,
+                    FWD_NUMBER,
+                    FWD_SRC_NUMBER,
+                    FWD_TO_NUMBER,
+                    CALLED_NUMBER,
+                    CALLING_NUMBER,
+                    LEG_ID,
+                    ORIGINAL_RECORD)
+        VALUES(#{featureId},
+                #{connectionId},
+                #{name},
+                #{forwardFromNumber},
+                #{status},
+                #{featureTime},
+                #{forwardingReason},
+                #{forwardedNumber},
+                #{forwardSourceNumber},
+                #{forwardToNumber},
+                #{calledNumber},
+                #{callingNumber},
+                #{legId},
+                #{originalRecord})
+    </insert>
+</mapper>

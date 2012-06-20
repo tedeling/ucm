@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.summary.dao.HuntGroupDao">
+
+    <resultMap id="huntGroupResultMap" type="HuntGroup">
+        <result property="huntGroupId" column="HUNTGROUP_ID"/>
+    </resultMap>
+
+    <select id="nl.tecon.cme.client.persistence.summary.dao.HuntGroupDao.findDuplicateCount" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(*) FROM HUNTGROUP WHERE HUNTGROUP_ID = #{huntGroup}
+    </select>
+
+    <insert id="persistHuntGroup" parameterType="HuntGroup">
+        INSERT INTO HUNTGROUP
+                (HUNTGROUP_ID)
+        VALUES(#{huntGroupId})
+    </insert>
+</mapper>

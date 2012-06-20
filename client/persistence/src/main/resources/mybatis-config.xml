@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <typeAlias alias="SysLog" type="nl.tecon.cme.common.domain.syslog.SysLog"/>
+        <typeAlias alias="Cdr" type="nl.tecon.cme.common.domain.cdr.Cdr"/>
+        <typeAlias alias="CdrVsa" type="nl.tecon.cme.common.domain.cdr.CdrVsa"/>
+        <typeAlias alias="HuntGroup" type="nl.tecon.cme.common.domain.summary.HuntGroup"/>
+        <typeAlias alias="HuntGroupSummary" type="nl.tecon.cme.common.domain.summary.HuntGroupSummary"/>
+        <typeAlias alias="Agent" type="nl.tecon.cme.common.domain.summary.Agent"/>
+        <typeAlias alias="AgentSummary" type="nl.tecon.cme.common.domain.summary.AgentSummary"/>
+        <typeAlias alias="QueueSummary" type="nl.tecon.cme.common.domain.summary.QueueSummary"/>
+    </typeAliases>
+
+    <typeHandlers>
+        <typeHandler javaType="org.joda.time.DateTime" handler="nl.tecon.cme.common.domain.typehandler.DateTimeTypeHandler"/>
+    </typeHandlers>
+
+    <mappers>
+        <mapper resource="mappers/CdrMapper.xml" />
+        <mapper resource="mappers/CdrVsaMapper.xml"/>
+        <mapper resource="mappers/SysLogMapper.xml"/>
+        <mapper resource="mappers/HuntGroupMapper.xml"/>
+        <mapper resource="mappers/HuntGroupSummaryMapper.xml"/>
+        <mapper resource="mappers/AgentMapper.xml"/>
+        <mapper resource="mappers/AgentSummaryMapper.xml"/>
+        <mapper resource="mappers/QueueSummaryMapper.xml"/>
+    </mappers>
+</configuration>

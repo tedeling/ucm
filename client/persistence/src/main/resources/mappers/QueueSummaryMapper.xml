@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.summary.dao.QueueSummaryDao">
+
+    <resultMap id="queueSummaryResultMap" type="QueueSummary">
+        <id property="id" column="ID"/>
+        <result property="huntGroupId" column="HUNTGROUP_ID"/>
+        <result property="summaryTime" column="SUMMARY_TIME"/>
+        <result property="presentedCalls" column="PRESENTED_CALLS"/>
+        <result property="answeredCalls" column="ANSWERED_CALLS"/>
+        <result property="callsInQueue" column="CALLS_IN_QUEUE"/>
+        <result property="avgTimeToAnswer" column="AVG_TIME_TO_ANSWER"/>
+        <result property="longestTimeToAnswer" column="LONGEST_TIME_TO_ANSWER"/>
+        <result property="abandonedCalls" column="ABANDONED_CALLS"/>
+        <result property="avgTimeBeforeAbandonment" column="AVG_TIME_BEFORE_ABANDONMENT"/>
+        <result property="callsFwdToVoiceMail" column="CALLS_FWD_TO_VOICEMAIL"/>
+        <result property="callsAnsweredByVoiceMail" column="CALLS_ANSWERED_BY_VOICEMAIL"/>
+    </resultMap>
+
+    <select id="nl.tecon.cme.client.persistence.summary.dao.QueueSummaryDao.findDuplicateCount" resultType="Integer" parameterType="QueueSummary">
+        SELECT COUNT(*) FROM QUEUE_SUMMARY WHERE HUNTGROUP_ID = #{huntGroupId} AND SUMMARY_TIME = #{summaryTime}
+    </select>
+
+    <insert id="nl.tecon.cme.client.persistence.summary.dao.QueueSummaryDao.persist" parameterType="QueueSummary">
+        INSERT INTO QUEUE_SUMMARY
+                (   HUNTGROUP_ID,
+                    SUMMARY_TIME,
+                    PRESENTED_CALLS,
+                    ANSWERED_CALLS,
+                    CALLS_IN_QUEUE,
+                    AVG_TIME_TO_ANSWER,
+                    LONGEST_TIME_TO_ANSWER,
+                    ABANDONED_CALLS,
+                    AVG_TIME_BEFORE_ABANDONMENT,
+                    CALLS_FWD_TO_VOICEMAIL,
+                    CALLS_ANSWERED_BY_VOICEMAIL)
+        VALUES( #{huntGroupId},
+                #{summaryTime},
+                #{presentedCalls},
+                #{answeredCalls},
+                #{callsInQueue},
+                #{avgTimeToAnswer},
+                #{longestTimeToAnswer},
+                #{abandonedCalls},
+                #{avgTimeBeforeAbandonment},
+                #{callsFwdToVoiceMail},
+                #{callsAnsweredByVoiceMail})
+    </insert>
+</mapper>

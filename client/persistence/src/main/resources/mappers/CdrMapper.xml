@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.cdr.dao.CdrDao">
+
+    <resultMap id="cdrResultMap" type="Cdr">
+        <id property="cdrId" column="ID"/>
+        <result property="callLegType" column="CALL_LEG_TYPE"/>
+        <result property="connectionId" column="CONNECTION_ID"/>
+        <result property="setUpTime" column="SETUP_TIME"/>
+        <result property="peerAddress" column="PEER_ADDRESS"/>
+        <result property="peerSubAddress" column="PEER_SUB_ADDRESS"/>
+        <result property="disconnectCause" column="DISCONNECT_CAUSE"/>
+        <result property="disconnectText" column="DISCONNECT_TEXT"/>
+        <result property="connectTime" column="CONNECT_TIME"/>
+        <result property="disconnectTime" column="DISCONNECT_TIME"/>
+        <result property="callOrigin" column="CALL_ORIGIN"/>
+        <result property="chargedUnits" column="CHARGED_UNITS"/>
+        <result property="infoType" column="INFO_TYPE"/>
+        <result property="transmitPackets" column="TRANSMIT_PACKETS"/>
+        <result property="transmitBytes" column="TRANSMIT_BYTES"/>
+        <result property="receivedPackets" column="RECEIVED_PACKETS"/>
+        <result property="receivedBytes" column="RECEIVED_BYTES"/>
+        <!--<result property="setUpTime" column="ORIGINAL_RECORD"/>-->
+    </resultMap>
+
+    <select id="findCdr" resultMap="cdrResultMap" parameterType="String">
+        SELECT * FROM CDR WHERE CONNECTION_ID = #{connectionId}
+    </select>
+
+    <insert id="persistCdr" parameterType="Cdr">
+        INSERT INTO CDR
+                (CALL_LEG_TYPE, CONNECTION_ID, SETUP_TIME, PEER_ADDRESS, PEER_SUB_ADDRESS,
+                    DISCONNECT_CAUSE, DISCONNECT_TEXT, CONNECT_TIME, DISCONNECT_TIME, CALL_ORIGIN, CHARGED_UNITS,
+                    INFO_TYPE, TRANSMIT_PACKETS, TRANSMIT_BYTES, RECEIVED_PACKETS, RECEIVED_BYTES,
+                    ORIGINAL_RECORD)
+        VALUES(#{callLegType}, #{connectionId}, #{setUpTime}, #{peerAddress}, #{peerSubAddress}, #{disconnectCause},
+                #{disconnectText}, #{connectTime}, #{disconnectTime}, #{callOrigin}, #{chargedUnits}, #{infoType}, #{transmitPackets},
+                #{transmitBytes}, #{receivedPackets}, #{receivedBytes}, #{originalRecord})
+    </insert>
+
+
+</mapper>

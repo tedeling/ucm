@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.summary.dao.AgentDao">
+
+    <resultMap id="agentResultMap" type="Agent">
+        <result property="agentId" column="AGENT_ID"/>
+    </resultMap>
+
+    <select id="nl.tecon.cme.client.persistence.summary.dao.AgentDao.findDuplicateCount" resultType="Integer" parameterType="Integer">
+        SELECT COUNT(*) FROM AGENT WHERE AGENT_ID = #{agent}
+    </select>
+
+    <insert id="persistAgent" parameterType="Agent">
+        INSERT INTO AGENT
+                (AGENT_ID)
+        VALUES(#{agentId})
+    </insert>
+</mapper>
