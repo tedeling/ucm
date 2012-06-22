@@ -4,15 +4,15 @@ import org.apache.ibatis.`type`.{JdbcType, BaseTypeHandler}
 import org.joda.time.DateTime
 import java.sql.{PreparedStatement, ResultSet, CallableStatement, Timestamp}
 
-class DateTimeTypeHandler extends BaseTypeHandler {
-  override def setNonNullParameter(ps: PreparedStatement, i: Int, parameter: AnyRef, jdbcType: JdbcType) {
-    ps.setTimestamp(i, new Timestamp(parameter.asInstanceOf[DateTime].toDate.getTime))
+class DateTimeTypeHandler extends BaseTypeHandler[DateTime] {
+  override def setNonNullParameter(ps: PreparedStatement, i: Int, parameter: DateTime, jdbcType: JdbcType) {
+    ps.setTimestamp(i, new Timestamp(parameter.toDate.getTime))
   }
 
-  override def getNullableResult(rs: ResultSet, columnName: String) = if (rs.getTimestamp(columnName) != null) new DateTime(rs.getTimestamp(columnName)) else null
+  override def getNullableResult(rs: ResultSet, columnName: String) = if (rs.getTimestamp(columnName) != null) new DateTime(rs.getTimestamp(columnName).getTime) else null
 
-  override def getNullableResult(resultSet: ResultSet, i: Int) = if (resultSet.getTimestamp(i) != null) new DateTime(resultSet.getTimestamp(i)) else null
+  override def getNullableResult(rs: ResultSet, i: Int) = if (rs.getTimestamp(i) != null) new DateTime(rs.getTimestamp(i).getTime) else null
 
-  override def getNullableResult(cs: CallableStatement, columnIndex: Int) = if (cs.getTimestamp(columnIndex) != null) new DateTime(cs.getTimestamp(columnIndex)) else null
+  override def getNullableResult(cs: CallableStatement, columnIndex: Int) = if (cs.getTimestamp(columnIndex) != null) new DateTime(cs.getTimestamp(columnIndex).getTime) else null
 }
 

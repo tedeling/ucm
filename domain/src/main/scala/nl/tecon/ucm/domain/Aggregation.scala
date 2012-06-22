@@ -1,7 +1,6 @@
 package nl.tecon.ucm.domain
 
 import org.joda.time.DateTime
-import nl.tecon.cme.common.domain.summary.{HuntGroupSummary, AgentSummary}
 
 
 abstract class AbstractSummary(id: Int, huntGroupId: Int, summaryTime: DateTime)
@@ -29,9 +28,9 @@ case class AgentSummary(id: Int,
 case class HuntGroup(huntGroupId: Int, pilotNumber: Int) {
   import collection.mutable.ListBuffer
 
-  private val agentSummaries = ListBuffer[AgentSummary]
-  private val queueSummaries  = new ListBuffer[QueueSummary]
-  private val huntGroupSummaries = new ListBuffer[HuntGroupSummary]
+  val agentSummaries = ListBuffer[AgentSummary]()
+  val queueSummaries  = new ListBuffer[QueueSummary]()
+  val huntGroupSummaries = new ListBuffer[HuntGroupSummary]()
 
   def add(summary: AgentSummary) { agentSummaries += summary }
   def add(summary: QueueSummary) { queueSummaries += summary }
