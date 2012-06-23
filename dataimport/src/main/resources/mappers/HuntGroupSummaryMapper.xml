@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.summary.dao.HuntGroupSummaryDao">
+
+    <resultMap id="huntGroupSummaryResultMap" type="HuntGroupSummary">
+        <id property="id" column="ID"/>
+        <result property="huntGroupId" column="HUNTGROUP_ID"/>
+        <result property="summaryTime" column="SUMMARY_TIME"/>
+        <result property="agentCountMax" column="AGENT_COUNT_MAX"/>
+        <result property="agentCountMin" column="AGENT_COUNT_MIN"/>
+        <result property="callCount" column="CALL_COUNT"/>
+        <result property="answeredCount" column="ANSWERED_COUNT"/>
+        <result property="abandonedCount" column="ABANDONED_COUNT"/>
+        <result property="avgTimeToAnswer" column="AVG_TIME_TO_ANSWER"/>
+        <result property="longestTimeToAnswer" column="LONGEST_TIME_TO_ANSWER"/>
+        <result property="avgTimeInCall" column="AVG_TIME_IN_CALL"/>
+        <result property="longestTimeInCall" column="LONGEST_TIME_IN_CALL"/>
+        <result property="avgTimeBeforeAbandonment" column="AVG_TIME_BEFORE_ABANDONMENT"/>
+        <result property="callsOnHold" column="CALLS_ON_HOLD"/>
+        <result property="avgTimeOnHold" column="AVG_TIME_ON_HOLD"/>
+        <result property="longestTimeOnHold" column="LONGEST_TIME_ON_HOLD"/>
+    </resultMap>
+
+    <select id="nl.tecon.cme.client.persistence.summary.dao.HuntGroupSummaryDao.findDuplicateCount" resultType="Integer" parameterType="HuntGroupSummary">
+        SELECT COUNT(*) FROM HUNTGROUP_SUMMARY WHERE HUNTGROUP_ID = #{huntGroupId} AND SUMMARY_TIME = #{summaryTime}
+    </select>
+
+    <insert id="nl.tecon.cme.client.persistence.summary.dao.HuntGroupSummaryDao.persist" parameterType="HuntGroupSummary">
+        INSERT INTO HUNTGROUP_SUMMARY
+                (HUNTGROUP_ID,
+                SUMMARY_TIME,
+                    AGENT_COUNT_MAX,
+                    AGENT_COUNT_MIN,
+                    CALL_COUNT,
+                    ANSWERED_COUNT,
+                    ABANDONED_COUNT,
+                    AVG_TIME_TO_ANSWER,
+                    LONGEST_TIME_TO_ANSWER,
+                    AVG_TIME_IN_CALL,
+                    LONGEST_TIME_IN_CALL,
+                    AVG_TIME_BEFORE_ABANDONMENT,
+                    CALLS_ON_HOLD,
+                    AVG_TIME_ON_HOLD,
+                    LONGEST_TIME_ON_HOLD)
+        VALUES(#{huntGroupId},
+                #{summaryTime},
+                #{agentCountMax},
+                #{agentCountMin},
+                #{callCount},
+                #{answeredCount},
+                #{abandonedCount},
+                #{avgTimeToAnswer},
+                #{longestTimeToAnswer},
+                #{avgTimeInCall},
+                #{longestTimeInCall},
+                #{avgTimeBeforeAbandonment},
+                #{callsOnHold},
+                #{avgTimeOnHold},
+                #{longestTimeOnHold})
+    </insert>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nl.tecon.cme.client.persistence.summary.dao.AgentSummaryDao">
+
+    <resultMap id="agentSummaryResultMap" type="AgentSummary">
+        <id property="id" column="ID"/>
+        <result property="agentId" column="AGENT_ID"/>
+        <result property="huntGroupId" column="HUNTGROUP_ID"/>
+        <result property="summaryTime" column="SUMMARY_TIME"/>
+        <result property="directCallsAnswered" column="DIRECT_CALLS_ANSWERED"/>
+        <result property="directAvgTimeInCall" column="DIRECT_AVG_TIME_IN_CALL"/>
+        <result property="directLongestTimeInCall" column="DIRECT_LONGEST_TIME_IN_CALL"/>
+        <result property="directTotalCallsOnHold" column="DIRECT_TOTAL_CALLS_ON_HOLD"/>
+        <result property="directAvgHoldTime" column="DIRECT_AVG_HOLD_TIME"/>
+        <result property="directLongestHoldTime" column="DIRECT_LONGEST_HOLD_TIME"/>
+        <result property="queueCallsAnswered" column="QUEUE_CALLS_ANSWERED"/>
+        <result property="queueAvgTimeInCall" column="QUEUE_AVG_TIME_IN_CALL"/>
+        <result property="queueLongestTimeInCall" column="QUEUE_LONGEST_TIME_IN_CALL"/>
+        <result property="queueTotalCallsOnHold" column="QUEUE_TOTAL_CALLS_ON_HOLD"/>
+        <result property="queueAvgHoldTime" column="QUEUE_AVG_HOLD_TIME"/>
+        <result property="queueLongestHoldTime" column="QUEUE_LONGEST_HOLD_TIME"/>
+    </resultMap>
+
+    <select id="nl.tecon.cme.client.persistence.summary.dao.AgentSummaryDao.findDuplicateCount" resultType="Integer" parameterType="AgentSummary">
+        SELECT COUNT(*) FROM AGENT_SUMMARY WHERE HUNTGROUP_ID = #{huntGroupId} AND SUMMARY_TIME = #{summaryTime} AND AGENT_ID =#{agentId}
+    </select>
+
+    <insert id="nl.tecon.cme.client.persistence.summary.dao.AgentSummaryDao.persist" parameterType="AgentSummary">
+        INSERT INTO AGENT_SUMMARY
+                (   AGENT_ID,
+                    HUNTGROUP_ID,
+                    SUMMARY_TIME,
+                    DIRECT_CALLS_ANSWERED,
+                    DIRECT_AVG_TIME_IN_CALL,
+                    DIRECT_LONGEST_TIME_IN_CALL,
+                    DIRECT_TOTAL_CALLS_ON_HOLD,
+                    DIRECT_AVG_HOLD_TIME,
+                    DIRECT_LONGEST_HOLD_TIME,
+                    QUEUE_CALLS_ANSWERED,
+                    QUEUE_AVG_TIME_IN_CALL,
+                    QUEUE_LONGEST_TIME_IN_CALL,
+                    QUEUE_TOTAL_CALLS_ON_HOLD,
+                    QUEUE_AVG_HOLD_TIME,
+                    QUEUE_LONGEST_HOLD_TIME)
+        VALUES( #{agentId},
+                #{huntGroupId},
+                #{summaryTime},
+                #{directCallsAnswered},
+                #{directAvgTimeInCall},
+                #{directLongestTimeInCall},
+                #{directTotalCallsOnHold},
+                #{directAvgHoldTime},
+                #{directLongestHoldTime},
+                #{queueCallsAnswered},
+                #{queueAvgTimeInCall},
+                #{queueLongestTimeInCall},
+                #{queueTotalCallsOnHold},
+                #{queueAvgHoldTime},
+                #{queueLongestHoldTime})
+    </insert>
+</mapper>
