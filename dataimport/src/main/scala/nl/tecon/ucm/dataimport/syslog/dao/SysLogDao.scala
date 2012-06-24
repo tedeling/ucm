@@ -24,7 +24,6 @@ object SysLogDao {
                   WHERE ID >= #{{id}} AND Priority = 5
                   AND Facility = 5
                 </xsql>
-
   }
 
   def bind = Seq(findAfterId)
