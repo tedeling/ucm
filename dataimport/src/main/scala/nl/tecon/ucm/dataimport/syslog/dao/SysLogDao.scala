@@ -1,9 +1,7 @@
 package nl.tecon.ucm.dataimport.syslog.dao
 
 import nl.tecon.ucm.domain.SysLog
-import org.springframework.stereotype.Repository
-import org.mybatis.spring.support.SqlSessionDaoSupport
-import org.mybatis.scala.mapping.{T, SelectList, ResultMap}
+import org.mybatis.scala.mapping.{SelectListBy, T, SelectList, ResultMap}
 import org.joda.time.DateTime
 
 
@@ -18,12 +16,12 @@ object SysLogDao {
     arg ( column = "Message", javaType = T[String])
   }
 
-  val findAfterId = new SelectList[SysLog] {
+  val findAfterId = new SelectListBy[Long, SysLog] {
     resultMap = SysLogResultMap
     def xsql = <xsql>
                   SELECT *
                   FROM SystemEvents
-                  WHERE Priority = 5
+                  WHERE ID >= #{{id}} AND Priority = 5
                   AND Facility = 5
                 </xsql>
 

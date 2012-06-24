@@ -15,7 +15,7 @@ class SysLogImportImpl extends SysLogImport {
     val db = DbConfig.persistenceContext
 
     db.transaction { implicit session =>
-      SysLogDao.findAfterId() map (x => println(x.message))
+      SysLogDao.findAfterId(150616) map (x => println(x.id))
     }
   }
 }
