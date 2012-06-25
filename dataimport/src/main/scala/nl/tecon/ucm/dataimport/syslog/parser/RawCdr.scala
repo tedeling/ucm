@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 case class RawCdr(cdr: String) {
   private final val SPLIT_PATTERN = Pattern.compile(",")
 
-  def splitWithoutType: Array[String] = {
+  def splitWithoutType(): Array[String] = {
     val firstElementAfterType = endOfType() + 2
 
     if (cdr.length > firstElementAfterType) {

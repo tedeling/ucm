@@ -2,8 +2,8 @@ package nl.tecon.ucm.dataimport.syslog
 
 import dao.SysLogDao
 import org.springframework.stereotype.Service
-import org.springframework.beans.factory.annotation.Autowired
 import nl.tecon.ucm.dataimport.db.DbConfig
+import parser.CdrParser
 
 trait SysLogImport {
   def parseSysLog()
@@ -14,8 +14,9 @@ class SysLogImportImpl extends SysLogImport {
   def parseSysLog() {
     val db = DbConfig.persistenceContext
 
-    db.transaction { implicit session =>
-      SysLogDao.findAfterId(150616) map (x => println(x.id))
+    db.transaction {
+      implicit session =>
+        SysLogDao.findAfterId(0) map (CdrParser.parse(_))
     }
   }
 }
