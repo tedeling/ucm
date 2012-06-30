@@ -25,7 +25,7 @@ object ForwardingReason extends Enumeration {
 abstract class AbstractCdr(connectionId: String)
 
 case class Cdr(connectionId: String,
-               cdrId: Long,
+               cdrId: Option[Long] = None,
                callLegType: Int,
                setUpTime: DateTime,
                peerAddress: String,

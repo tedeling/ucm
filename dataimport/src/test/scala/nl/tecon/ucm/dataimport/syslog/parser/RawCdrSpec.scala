@@ -13,7 +13,7 @@ class RawCdrSpec extends SpecificationWithJUnit {
     }
 
     "split on type" in {
-      cdr.splitWithoutType(0) must equalTo("CallLegType 2")
+      cdr.splitWithoutType()(0) must equalTo("CallLegType 2")
     }
   }
 }
