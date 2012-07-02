@@ -56,15 +56,10 @@ object DateFormatter {
 
   private def parseDateAndTimeWithTz(value: String, formatter: DateTimeFormatter): DateTime = {
     val splittedText: Array[String] = value.split(" ")
-    val parseByJoda: StringBuffer = new StringBuffer(splittedText(0))
-    parseByJoda.append(" ")
-    parseByJoda.append(splittedText(3))
-    parseByJoda.append(" ")
-    parseByJoda.append(splittedText(4))
-    parseByJoda.append(" ")
-    parseByJoda.append(splittedText(5))
+
+    val parseByJoda = "%s %s %s %s".format(splittedText(0), splittedText(3), splittedText(4), splittedText(5))
     val timeZone: DateTimeZone = DateTimeZone.forID(splittedText(1))
-    formatter.parseDateTime(parseByJoda.toString).withZone(timeZone)
+    formatter.parseDateTime(parseByJoda).withZone(timeZone)
   }
 
   def parseDateAndTimeNoTimeZone(value: String) = NoTimeZone.parseDateTime(value)

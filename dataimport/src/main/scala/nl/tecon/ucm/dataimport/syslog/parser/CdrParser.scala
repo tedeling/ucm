@@ -15,7 +15,7 @@ object CdrParser {
 
   def cdrHistoryParser(rawCdr: RawCdr): Some[String] = {
 
-    val builder = new CdrBuilder()
+    val builder = new CdrBuilder(rawCdr.cdr)
 
     val splittedCdr = rawCdr.splitWithoutType()
 
