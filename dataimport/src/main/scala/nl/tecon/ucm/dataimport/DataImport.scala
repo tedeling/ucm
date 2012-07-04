@@ -16,11 +16,8 @@ class DataImport @Autowired()(sysLogImport: SysLogImport) {
 
   private def parseCdr() {
     LOG.info("*** Stage 1: Parsing CDR's from Syslog")
-    val stats: SysLogParsingStatistics = sysLogImport.parseSysLog()
+    val stats = sysLogImport.parseSysLog()
 
-
-
-    //    val importResult: ImportResult = getResult
     LOG.info("*** Stage 1: completed. Records successfully parsed: " + stats.success + ", failures: " + stats.errors + ", warnings: " + stats.warnings)
   }
 

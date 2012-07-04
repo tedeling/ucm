@@ -2,15 +2,24 @@ package nl.tecon.ucm.dataimport.syslog.parser
 
 import nl.tecon.ucm.domain.{Cdr, SysLog}
 import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
+import nl.tecon.ucm.dataimport.syslog.dao.SysLogDao
+import org.mybatis.scala.session.Session
 
 object CdrParser {
-  def parse(syslog: SysLog)(implicit stats: SysLogParsingStatistics) {
+  def parse(syslog: SysLog)(implicit stats: SysLogParsingStatistics, session:Session) {
     val rawCdr = RawCdr(syslog.message)
 
     val x = rawCdr.cdrType() match {
-      case Some(cdrType) if (cdrType.contains("VOIP_CALL_HISTORY")) => cdrHistoryParser(rawCdr)
+      case Some(cdrType) if (cdrType.contains("VOIP_CALL_HISTORY")) => persist(cdrHistoryParser(rawCdr))
       case Some(cdrType) if (cdrType.contains("VOIP_FEAT_HISTORY")) => vsaParser(rawCdr)
       case _ => None
+    }
+  }
+
+  def persist(cdr: Option[Cdr])(implicit session: Session) {
+    cdr match {
+      case Some(c) => SysLogDao.persist(c)
+      case None =>
     }
   }
 

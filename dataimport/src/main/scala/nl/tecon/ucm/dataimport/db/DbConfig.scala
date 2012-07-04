@@ -10,6 +10,7 @@ object DbConfig {
 //  Create a configuration space, add the data access method
   config.addSpace("item") { space =>
     space += SysLogDao.findAfterId
+    space += SysLogDao.persist
   }
 
   // Build the session manager
