@@ -3,7 +3,7 @@ package nl.tecon.ucm.dataimport
 import org.springframework.stereotype.Service
 import org.apache.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
-import syslog.SysLogImport
+import syslog.{SysLogParsingStatistics, SysLogImport}
 
 @Service
 class DataImport @Autowired()(sysLogImport: SysLogImport) {
@@ -16,9 +16,12 @@ class DataImport @Autowired()(sysLogImport: SysLogImport) {
 
   private def parseCdr() {
     LOG.info("*** Stage 1: Parsing CDR's from Syslog")
-    sysLogImport.parseSysLog()
+    val stats: SysLogParsingStatistics = sysLogImport.parseSysLog()
+
+
+
     //    val importResult: ImportResult = getResult
-    //    LOG.info("*** Stage 1: completed. Records successfully parsed: " + importResult.getImportSuccessCount + ", failures: " + importResult.getImportFailureCount + ", warnings: " + importResult.getImportWarningCount)
+    LOG.info("*** Stage 1: completed. Records successfully parsed: " + stats.success + ", failures: " + stats.errors + ", warnings: " + stats.warnings)
   }
 
 }

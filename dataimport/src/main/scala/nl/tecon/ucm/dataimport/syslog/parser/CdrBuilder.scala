@@ -4,6 +4,7 @@ import collection.mutable.{Map => MutableMap}
 import nl.tecon.ucm.domain.Cdr
 import nl.tecon.ucm.dataimport.util.DateFormatter
 import org.apache.log4j.Logger
+import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 
 class CdrBuilder(val rawCdr: String) {
   private val LOG: Logger = Logger.getLogger(classOf[CdrBuilder])
@@ -26,16 +27,18 @@ class CdrBuilder(val rawCdr: String) {
     }
   }
 
-  def build(): Option[Cdr] = {
+  def build()(implicit stats: SysLogParsingStatistics): Option[Cdr] = {
     if (!cdr.contains("connectionid")) {
+      stats.addError()
       LOG.error("Failed to parse CDR, no connectionId found %s".format(rawCdr))
       None
     } else if (cdr("connectionid") == InvalidConnectionId) {
+      stats.addWarning()
       LOG.warn("Discarding connectionId: 0000. CDR: %s".format(rawCdr))
       None
     } else {
       try {
-        Some(Cdr(connectionId = cdr("connectionid"),
+        val someCdr = Some(Cdr(connectionId = cdr("connectionid"),
           callLegType = cdr("calllegtype").toInt,
           setUpTime = DateFormatter.parseDateAndTime(cdr("setuptime")),
           peerAddress = cdr.getOrElse("peeraddress", ""),
@@ -52,9 +55,13 @@ class CdrBuilder(val rawCdr: String) {
           receivedPackets = cdr.getOrElse("receivedPackets", "0").toLong,
           receivedBytes = cdr.getOrElse("receivedBytes", "0").toLong,
           originalRecord = rawCdr))
+        stats.addSuccess()
+        someCdr
+
       } catch {
         case x: NumberFormatException => {
           // TODO
+          stats.addError()
           None
         }
       }

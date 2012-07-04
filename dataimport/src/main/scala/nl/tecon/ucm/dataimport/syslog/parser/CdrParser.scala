@@ -1,9 +1,10 @@
 package nl.tecon.ucm.dataimport.syslog.parser
 
-import nl.tecon.ucm.domain.SysLog
+import nl.tecon.ucm.domain.{Cdr, SysLog}
+import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 
 object CdrParser {
-  def parse(syslog: SysLog) {
+  def parse(syslog: SysLog)(implicit stats: SysLogParsingStatistics) {
     val rawCdr = RawCdr(syslog.message)
 
     val x = rawCdr.cdrType() match {
@@ -13,7 +14,7 @@ object CdrParser {
     }
   }
 
-  def cdrHistoryParser(rawCdr: RawCdr): Some[String] = {
+  def cdrHistoryParser(rawCdr: RawCdr)(implicit stats: SysLogParsingStatistics): Option[Cdr] = {
 
     val builder = new CdrBuilder(rawCdr.cdr)
 
@@ -24,8 +25,6 @@ object CdrParser {
     })
 
     builder.build()
-
-    Some("")
   }
 
   def vsaParser(rawCdr: RawCdr): Some[String] = {
