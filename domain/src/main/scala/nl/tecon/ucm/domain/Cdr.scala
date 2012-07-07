@@ -24,8 +24,8 @@ object ForwardingReason extends Enumeration {
 
 abstract class AbstractCdr(connectionId: String)
 
-case class Cdr(connectionId: String,
-               cdrId: Option[Long] = None,
+case class Cdr(id: Option[Long] = None,
+               connectionId: String,
                callLegType: Int,
                setUpTime: DateTime,
                peerAddress: String,
@@ -42,47 +42,6 @@ case class Cdr(connectionId: String,
                receivedPackets: Long,
                receivedBytes: Long,
                originalRecord: String) extends AbstractCdr(connectionId)
-
-//object Cdr {
-//  def apply(connectionId: String,
-//            cdrId: String,
-//            callLegType: String,
-//            setUpTime: String,
-//            peerAddress: String,
-//            peerSubAddress: String,
-//            disconnectCause: String,
-//            disconnectText: String,
-//            connectTime: String,
-//            disconnectTime: String,
-//            callOrigin: String,
-//            chargedUnits: String,
-//            infoType: String,
-//            transmitPackets: String,
-//            transmitBytes: String,
-//            receivedPackets: String,
-//            receivedBytes: String,
-//            originalRecord: String) = {
-//    Cdr(connectionId = connectionId,
-//        cdrId = cdrId.toLong,
-//      callLegType = callLegType,
-//      setUpTime = setUpTime,
-//      peerAddress = peerAddress  ,
-//      peerSubAddress = peerSubAddress ,
-//      disconnectCause = disconnectCause,
-//      disconnectText = disconnectText  ,
-//      connectTime = connectTime,
-//      disconnectTime = disconnectTime,
-//      callOrigin = callOrigin,
-//      chargedUnits = chargedUnits,
-//      infoType = infoType,
-//      transmitPackets = transmitPackets,
-//      transmitBytes = transmitBytes,
-//      receivedPackets = receivedPackets,
-//      receivedBytes = receivedBytes,
-//      originalRecord= originalRecord)
-//
-//  }
-//}
 
 import FeatureName._
 import FeatureStatus._

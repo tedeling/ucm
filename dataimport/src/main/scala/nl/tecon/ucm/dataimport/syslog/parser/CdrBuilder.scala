@@ -37,34 +37,25 @@ class CdrBuilder(val rawCdr: String) {
       LOG.warn("Discarding connectionId: 0000. CDR: %s".format(rawCdr))
       None
     } else {
-      try {
-        val someCdr = Some(Cdr(connectionId = cdr("connectionid"),
-          callLegType = cdr("calllegtype").toInt,
-          setUpTime = DateFormatter.parseDateAndTime(cdr("setuptime")),
-          peerAddress = cdr.getOrElse("peeraddress", ""),
-          peerSubAddress = cdr.getOrElse("peersubaddress", ""),
-          disconnectCause = cdr("disconnectcause"),
-          disconnectText = cdr("disconnecttext"),
-          connectTime = DateFormatter.parseDateAndTime(cdr("connecttime")),
-          disconnectTime = DateFormatter.parseDateAndTime(cdr("disconnecttime")),
-          callOrigin = cdr.getOrElse("callOrigin", ""),
-          chargedUnits = cdr.getOrElse("chargedUnits", ""),
-          infoType = cdr.getOrElse("infoType", ""),
-          transmitPackets = cdr.getOrElse("transmitPackets", "0").toLong,
-          transmitBytes = cdr.getOrElse("transmitBytes", "0").toLong,
-          receivedPackets = cdr.getOrElse("receivedPackets", "0").toLong,
-          receivedBytes = cdr.getOrElse("receivedBytes", "0").toLong,
-          originalRecord = rawCdr))
-        stats.addSuccess()
-        someCdr
-
-      } catch {
-        case x: NumberFormatException => {
-          // TODO
-          stats.addError()
-          None
-        }
-      }
+      val someCdr = Some(Cdr(connectionId = cdr("connectionid"),
+        callLegType = cdr("calllegtype").toInt,
+        setUpTime = DateFormatter.parseDateAndTime(cdr("setuptime")),
+        peerAddress = cdr.getOrElse("peeraddress", ""),
+        peerSubAddress = cdr.getOrElse("peersubaddress", ""),
+        disconnectCause = cdr("disconnectcause"),
+        disconnectText = cdr("disconnecttext"),
+        connectTime = DateFormatter.parseDateAndTime(cdr("connecttime")),
+        disconnectTime = DateFormatter.parseDateAndTime(cdr("disconnecttime")),
+        callOrigin = cdr.getOrElse("callOrigin", ""),
+        chargedUnits = cdr.getOrElse("chargedUnits", ""),
+        infoType = cdr.getOrElse("infoType", ""),
+        transmitPackets = cdr.getOrElse("transmitPackets", "0").toLong,
+        transmitBytes = cdr.getOrElse("transmitBytes", "0").toLong,
+        receivedPackets = cdr.getOrElse("receivedPackets", "0").toLong,
+        receivedBytes = cdr.getOrElse("receivedBytes", "0").toLong,
+        originalRecord = rawCdr))
+      stats.addSuccess()
+      someCdr
     }
   }
 }
