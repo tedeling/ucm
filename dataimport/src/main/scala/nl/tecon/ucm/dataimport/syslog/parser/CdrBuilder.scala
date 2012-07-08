@@ -46,13 +46,13 @@ class CdrBuilder(val rawCdr: String) {
         disconnectText = cdr("disconnecttext"),
         connectTime = DateFormatter.parseDateAndTime(cdr("connecttime")),
         disconnectTime = DateFormatter.parseDateAndTime(cdr("disconnecttime")),
-        callOrigin = cdr.getOrElse("callOrigin", ""),
-        chargedUnits = cdr.getOrElse("chargedUnits", ""),
-        infoType = cdr.getOrElse("infoType", ""),
-        transmitPackets = cdr.getOrElse("transmitPackets", "0").toLong,
-        transmitBytes = cdr.getOrElse("transmitBytes", "0").toLong,
-        receivedPackets = cdr.getOrElse("receivedPackets", "0").toLong,
-        receivedBytes = cdr.getOrElse("receivedBytes", "0").toLong,
+        callOrigin = cdr.getOrElse("callorigin", ""),
+        chargedUnits = cdr.getOrElse("chargedunits", ""),
+        infoType = cdr.getOrElse("infotype", ""),
+        transmitPackets = cdr.getOrElse("transmitpackets", "0").toLong,
+        transmitBytes = cdr.getOrElse("transmitbytes", "0").toLong,
+        receivedPackets = cdr.getOrElse("receivepackets", "0").toLong,
+        receivedBytes = cdr.getOrElse("receivebytes", "0").toLong,
         originalRecord = rawCdr))
       stats.addSuccess()
       someCdr
