@@ -5,7 +5,8 @@
     <properties resource="db.syslog.properties" />
 
     <typeHandlers>
-        <typeHandler javaType="org.joda.time.DateTime" handler="nl.tecon.ucm.domain.ibatis.DateTimeTypeHandler"/>
+        <typeHandler javaType="org.joda.time.DateTime" handler="nl.tecon.ucm.domain.mybatis.DateTimeTypeHandler"/>
+        <typeHandler javaType="scala.Enumeration" handler="nl.tecon.ucm.domain.mybatis.EnumerationTypeHandler"/>
     </typeHandlers>
 
     <environments default="development">

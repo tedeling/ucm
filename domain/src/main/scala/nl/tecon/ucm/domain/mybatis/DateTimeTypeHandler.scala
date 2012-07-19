@@ -1,4 +1,4 @@
-package nl.tecon.ucm.domain.ibatis
+package nl.tecon.ucm.domain.mybatis
 
 import org.apache.ibatis.`type`.{JdbcType, BaseTypeHandler}
 import org.joda.time.DateTime

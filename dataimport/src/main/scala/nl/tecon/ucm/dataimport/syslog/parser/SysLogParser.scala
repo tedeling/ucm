@@ -2,7 +2,7 @@ package nl.tecon.ucm.dataimport.syslog.parser
 
 import nl.tecon.ucm.domain.{CdrVsa, Cdr, SysLog}
 import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
-import nl.tecon.ucm.dataimport.syslog.dao.{CdrDao, SysLogDao}
+import nl.tecon.ucm.dataimport.syslog.dao.{CdrVsaDao, CdrDao, SysLogDao}
 import org.mybatis.scala.session.Session
 import org.apache.log4j.Logger
 
@@ -14,7 +14,7 @@ object SysLogParser {
 
     rawCdr.cdrType() match {
       case Some(cdrType) if (cdrType.contains("VOIP_CALL_HISTORY")) => persist(cdrHistoryParser(rawCdr))
-      case Some(cdrType) if (cdrType.contains("VOIP_FEAT_HISTORY")) => vsaParser(rawCdr)
+      case Some(cdrType) if (cdrType.contains("VOIP_FEAT_HISTORY")) => persistVsa(vsaParser(rawCdr))
       case _ => None
     }
   }
@@ -26,6 +26,20 @@ object SysLogParser {
 
         if (record.isEmpty)
           CdrDao.persist(c)
+        else
+          LOG.warn("Record already exists %s".format(c.originalRecord))
+      }
+      case None =>
+    }
+  }
+
+  def persistVsa(cdr: Option[CdrVsa])(implicit session: Session) {
+    cdr match {
+      case Some(c) => {
+        val record = CdrDao.findByOriginalRecord(c.originalRecord)
+
+        if (record.isEmpty)
+          CdrVsaDao.persist(c)
         else
           LOG.warn("Record already exists %s".format(c.originalRecord))
       }

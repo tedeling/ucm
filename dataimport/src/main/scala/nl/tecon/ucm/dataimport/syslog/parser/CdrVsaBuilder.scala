@@ -38,8 +38,8 @@ class CdrVsaBuilder(val rawCdr: String) extends BuilderMap(separator = ":") {
         forwardSourceNumber = cdr.getOrElse("fwder", ""),
         forwardToNumber = cdr.getOrElse("fwdto", ""),
         forwardFromNumber = cdr.getOrElse("frm", ""),
-        calledNumber = cdr("cdn"),
-        callingNumber = cdr("cgn"),
+        calledNumber = cdr.getOrElse("cdn", ""),
+        callingNumber = cdr.getOrElse("cgn", ""),
         originalRecord = rawCdr))
       stats.addSuccess()
       someCdrVsa

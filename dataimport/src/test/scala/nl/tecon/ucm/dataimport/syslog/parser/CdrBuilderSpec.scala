@@ -5,8 +5,12 @@ import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 import nl.tecon.ucm.domain.Cdr
 import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.tz.DateTimeZoneBuilder
+import org.junit.runner.RunWith
+import org.junit.runner.RunWith
+import org.specs2.runner.JUnitRunner
 
-class CdrBuilderSpec extends SpecificationWithJUnit {
+@RunWith(classOf[JUnitRunner])
+class CdrBuilderSpec extends Specification {
   "The CdrBuilder" should {
 
     "parse a raw CDR properly" in {
