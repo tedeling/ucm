@@ -1,12 +1,12 @@
 package nl.tecon.ucm.dataimport.syslog.parser
 
-import nl.tecon.ucm.domain.{Cdr, SysLog}
+import nl.tecon.ucm.domain.{CdrVsa, Cdr, SysLog}
 import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 import nl.tecon.ucm.dataimport.syslog.dao.{CdrDao, SysLogDao}
 import org.mybatis.scala.session.Session
 import org.apache.log4j.Logger
 
-object CdrParser {
+object SysLogParser {
   private val LOG: Logger = Logger.getLogger(classOf[CdrBuilder])
 
   def parse(syslog: SysLog)(implicit stats: SysLogParsingStatistics, session:Session) {
@@ -46,7 +46,15 @@ object CdrParser {
     builder.build()
   }
 
-  def vsaParser(rawCdr: RawCdr): Some[String] = {
-    Some("")
+  def vsaParser(rawCdr: RawCdr)(implicit stats: SysLogParsingStatistics): Option[CdrVsa] = {
+    val builder = new CdrVsaBuilder(rawCdr.cdr)
+
+    val splittedCdr = rawCdr.splitWithoutType()
+
+    splittedCdr map (keyValue => {
+      builder.parse(keyValue)
+    })
+
+    builder.build()
   }
 }

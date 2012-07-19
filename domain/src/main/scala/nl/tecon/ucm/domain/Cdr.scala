@@ -46,8 +46,8 @@ case class Cdr(id: Option[Long] = None,
 import FeatureName._
 import FeatureStatus._
 import ForwardingReason._
-case class CdrVsa(connectionId: String,
-                  cdrVsaId: Long,
+case class CdrVsa(cdrVsaId: Option[Long] = None,
+                  connectionId: String,
                   featureId: Long,
                   legId: String,
                   name: FeatureName,

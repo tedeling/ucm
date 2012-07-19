@@ -6,26 +6,10 @@ import nl.tecon.ucm.dataimport.util.DateFormatter
 import org.apache.log4j.Logger
 import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 
-class CdrBuilder(val rawCdr: String) {
+class CdrBuilder(val rawCdr: String) extends BuilderMap {
   private val LOG: Logger = Logger.getLogger(classOf[CdrBuilder])
 
   val InvalidConnectionId = "0000"
-
-  val cdr = MutableMap[String, String]()
-
-  def parse(keyValue: String) {
-    val trimmed = keyValue.trim()
-    val seperatorLocation = trimmed.indexOf(' ')
-
-    if (seperatorLocation >= 0) {
-      val value = trimmed.substring(seperatorLocation + 1).trim()
-      val key = trimmed.substring(0, seperatorLocation).trim()
-
-      if (!value.isEmpty) {
-        cdr(key.toLowerCase) = value
-      }
-    }
-  }
 
   def build()(implicit stats: SysLogParsingStatistics): Option[Cdr] = {
     if (!cdr.contains("connectionid")) {

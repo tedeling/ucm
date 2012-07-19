@@ -3,7 +3,7 @@ package nl.tecon.ucm.dataimport.syslog
 import dao.SysLogDao
 import org.springframework.stereotype.Service
 import nl.tecon.ucm.dataimport.db.DbConfig
-import parser.CdrParser
+import parser.SysLogParser
 
 trait SysLogImport {
   def parseSysLog(): SysLogParsingStatistics
@@ -18,7 +18,7 @@ class SysLogImportImpl extends SysLogImport {
 
     db.transaction {
       implicit session =>
-        SysLogDao.findAfterId(0) map (CdrParser.parse(_))
+        SysLogDao.findAfterId(0) map (SysLogParser.parse(_))
     }
 
     stats
