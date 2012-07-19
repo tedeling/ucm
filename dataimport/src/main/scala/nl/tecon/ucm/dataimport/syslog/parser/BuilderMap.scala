@@ -2,12 +2,12 @@ package nl.tecon.ucm.dataimport.syslog.parser
 
 import collection.mutable.{Map => MutableMap}
 
-class BuilderMap  {
+class BuilderMap(separator: String)  {
   val cdr = MutableMap[String, String]()
 
   def parse(keyValue: String) {
     val trimmed = keyValue.trim()
-    val seperatorLocation = trimmed.indexOf(' ')
+    val seperatorLocation = trimmed.indexOf(separator)
 
     if (seperatorLocation >= 0) {
       val value = trimmed.substring(seperatorLocation + 1).trim()

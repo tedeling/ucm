@@ -1,6 +1,6 @@
 package nl.tecon.ucm.domain
 
-import org.joda.time.DateTime
+import org.joda.time.{LocalDateTime, DateTime}
 
 object FeatureName extends Enumeration {
   type FeatureName = Value
@@ -51,13 +51,13 @@ case class CdrVsa(cdrVsaId: Option[Long] = None,
                   featureId: Long,
                   legId: String,
                   name: FeatureName,
-                  forwardFromNumber: String,
+                  forwardFromNumber: String = "",
                   status: FeatureStatus,
-                  featureTime: DateTime,
-                  forwardingReason: ForwardingReason,
-                  forwardedNumber: String,
-                  forwardSourceNumber: String,
-                  forwardToNumber: String,
+                  featureTime: LocalDateTime,
+                  forwardingReason: Option[ForwardingReason] = None,
+                  forwardedNumber: String = "",
+                  forwardSourceNumber: String = "",
+                  forwardToNumber: String = "",
                   calledNumber: String,
                   callingNumber: String,
                   originalRecord: String) extends AbstractCdr(connectionId)

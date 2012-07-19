@@ -62,5 +62,5 @@ object DateFormatter {
     formatter.parseDateTime(parseByJoda).withZone(timeZone)
   }
 
-  def parseDateAndTimeNoTimeZone(value: String) = NoTimeZone.parseDateTime(value)
+  def parseDateAndTimeNoTimeZone(value: String) = NoTimeZone.parseDateTime(value).toLocalDateTime
 }

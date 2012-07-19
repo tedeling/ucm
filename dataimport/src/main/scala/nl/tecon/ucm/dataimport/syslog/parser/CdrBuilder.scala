@@ -6,7 +6,7 @@ import nl.tecon.ucm.dataimport.util.DateFormatter
 import org.apache.log4j.Logger
 import nl.tecon.ucm.dataimport.syslog.SysLogParsingStatistics
 
-class CdrBuilder(val rawCdr: String) extends BuilderMap {
+class CdrBuilder(val rawCdr: String) extends BuilderMap(separator = " ") {
   private val LOG: Logger = Logger.getLogger(classOf[CdrBuilder])
 
   val InvalidConnectionId = "0000"
