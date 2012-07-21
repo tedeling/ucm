@@ -6,6 +6,7 @@ import java.sql.{PreparedStatement, ResultSet, CallableStatement, Timestamp}
 
 class DateTimeTypeHandler extends BaseTypeHandler[DateTime] {
   override def setNonNullParameter(ps: PreparedStatement, i: Int, parameter: DateTime, jdbcType: JdbcType) {
+    // TODO losing timezone info
     ps.setTimestamp(i, new Timestamp(parameter.toDate.getTime))
   }
 

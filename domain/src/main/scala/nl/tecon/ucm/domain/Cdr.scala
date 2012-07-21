@@ -1,25 +1,53 @@
 package nl.tecon.ucm.domain
 
 import org.joda.time.{LocalDateTime, DateTime}
+import org.specs2.internal.scalaz.Value
 
-object FeatureName extends Enumeration {
-  type FeatureName = Value
-  val CFA, CFBY, CFNA, BXFER, CXFER, HOLD, RESUME, TWC = Value
+trait Enum[A] {
+  trait Value { self: A => }
+  val values: List[A]
+
+  def exists(name: String) = values.find(e => e.toString == name).isDefined
+  def withName(name: String) = (values.find(e => e.toString == name)).get
 }
 
-object FeatureStatus extends Enumeration {
-  type FeatureStatus = Value
-  val SUCCESS = Value("1")
-  val FAIL = Value("0")
+sealed trait FeatureName extends FeatureName.Value
+object FeatureName extends Enum[FeatureName] {
+  case object CFA extends FeatureName
+  case object CFBY extends FeatureName
+  case object CFNA extends FeatureName
+  case object BXFER extends FeatureName
+  case object CXFER extends FeatureName
+  case object HOLD extends FeatureName
+  case object RESUME extends FeatureName
+  case object TWC extends FeatureName
+
+  val values = List(CFA, CFBY, CFNA, BXFER, CXFER, HOLD, RESUME, TWC)
 }
 
-object ForwardingReason extends Enumeration {
-  type ForwardingReason = Value
-  val UNKNOWN = Value("0")
-  val CALL_FWD = Value("1")
-  val CALL_FWD_BUSY = Value("2")
-  val CALL_FWD_NO_REPLY = Value("3")
-  val CALL_DEFLECTION = Value("4")
+sealed trait FeatureStatus extends FeatureStatus.Value
+object FeatureStatus extends Enum[FeatureStatus] {
+  case object SUCCESS extends FeatureStatus
+  case object FAIL extends FeatureStatus
+
+  val values = List(SUCCESS, FAIL)
+}
+
+sealed trait ForwardingReason extends ForwardingReason.Value {
+  def rawValue:String
+}
+object ForwardingReason extends Enum[ForwardingReason] {
+  case object UNDEFINED extends ForwardingReason { def rawValue = "" }
+  case object UNKNOWN extends ForwardingReason { def rawValue = "0" }
+  case object CALL_FWD extends ForwardingReason { def rawValue = "1" }
+  case object CALL_FWD_BUSY extends ForwardingReason { def rawValue = "2" }
+  case object CALL_FWD_NO_REPLY extends ForwardingReason { def rawValue = "3" }
+  case object CALL_DEFLECTION extends ForwardingReason { def rawValue = "4" }
+
+  def forRawValue(rawValue: String) = {
+    values.find(_.rawValue == rawValue).get
+  }
+  val values = List(UNKNOWN, CALL_FWD, CALL_FWD_BUSY, CALL_DEFLECTION)
 }
 
 abstract class AbstractCdr(connectionId: String)
@@ -43,9 +71,6 @@ case class Cdr(id: Option[Long] = None,
                receivedBytes: Long,
                originalRecord: String) extends AbstractCdr(connectionId)
 
-import FeatureName._
-import FeatureStatus._
-import ForwardingReason._
 case class CdrVsa(cdrVsaId: Option[Long] = None,
                   connectionId: String,
                   featureId: Long,
@@ -54,7 +79,7 @@ case class CdrVsa(cdrVsaId: Option[Long] = None,
                   forwardFromNumber: String = "",
                   status: FeatureStatus,
                   featureTime: LocalDateTime,
-                  forwardingReason: Option[ForwardingReason] = None,
+                  forwardingReason: ForwardingReason = ForwardingReason.UNDEFINED,
                   forwardedNumber: String = "",
                   forwardSourceNumber: String = "",
                   forwardToNumber: String = "",

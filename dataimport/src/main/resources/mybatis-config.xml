@@ -6,7 +6,10 @@
 
     <typeHandlers>
         <typeHandler javaType="org.joda.time.DateTime" handler="nl.tecon.ucm.domain.mybatis.DateTimeTypeHandler"/>
-        <typeHandler javaType="scala.Enumeration" handler="nl.tecon.ucm.domain.mybatis.EnumerationTypeHandler"/>
+        <typeHandler javaType="org.joda.time.LocalDateTime" handler="nl.tecon.ucm.domain.mybatis.LocalDateTimeTypeHandler"/>
+        <typeHandler javaType="nl.tecon.ucm.domain.FeatureName" handler="nl.tecon.ucm.domain.mybatis.FeatureNameTypeHandler"/>
+        <typeHandler javaType="nl.tecon.ucm.domain.FeatureStatus" handler="nl.tecon.ucm.domain.mybatis.FeatureStatusTypeHandler"/>
+        <typeHandler javaType="nl.tecon.ucm.domain.ForwardingReason" handler="nl.tecon.ucm.domain.mybatis.OptForwardingReasonTypeHandler"/>
     </typeHandlers>
 
     <environments default="development">

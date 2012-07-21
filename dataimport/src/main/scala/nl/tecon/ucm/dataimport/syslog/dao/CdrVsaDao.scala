@@ -8,7 +8,7 @@ class MinimalCdrVsa {
 }
 
 object CdrVsaDao {
-  val CdrMap = new ResultMap[CdrVsa] {
+  val CdrVsaMap = new ResultMap[CdrVsa] {
     id(column = "ID", property = "id")
     arg(column = "CONNECTION_ID", javaType = T[String])
   }

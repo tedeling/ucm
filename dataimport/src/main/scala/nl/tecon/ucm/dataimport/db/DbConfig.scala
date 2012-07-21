@@ -2,6 +2,9 @@ package nl.tecon.ucm.dataimport.db
 
 import org.mybatis.scala.config._
 import nl.tecon.ucm.dataimport.syslog.dao.{CdrVsaDao, CdrDao, SysLogDao}
+import org.apache.ibatis.`type`.{JdbcType, TypeHandlerRegistry}
+import nl.tecon.ucm.domain.mybatis.{OptForwardingReasonTypeHandler, FeatureNameTypeHandler}
+import nl.tecon.ucm.domain.ForwardingReason
 
 object DbConfig {
   // Load datasource configuration
@@ -16,7 +19,9 @@ object DbConfig {
     space += CdrVsaDao.findByOriginalRecord
   }
 
-//  config.get
+  val registry = config.configuration.getTypeHandlerRegistry
+
+
 
   // Build the session manager
   val persistenceContext = config.createPersistenceContext

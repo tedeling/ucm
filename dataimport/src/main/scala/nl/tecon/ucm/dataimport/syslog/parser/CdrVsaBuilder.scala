@@ -24,25 +24,42 @@ class CdrVsaBuilder(val rawCdr: String) extends BuilderMap(separator = ":") {
       LOG.warn("Discarding connectionId: 0000. CDR: %s".format(rawCdr))
       None
     } else {
-      val someCdrVsa = Some(CdrVsa(name = FeatureName.withName(cdr("fn")),
-        featureTime = DateFormatter.parseDateAndTimeNoTimeZone(cdr("ft")),
-        legId = cdr.getOrElse("legid", ""),
-        forwardingReason = cdr.get("frson") match {
-          case Some(n) => Some(ForwardingReason.withName(n))
-          case None => None
-        },
-        status = FeatureStatus.withName(cdr("frs")),
-        featureId = cdr("fid").toLong,
-        connectionId = cdr("fcid"),
-        forwardedNumber = cdr.getOrElse("fwdee", ""),
-        forwardSourceNumber = cdr.getOrElse("fwder", ""),
-        forwardToNumber = cdr.getOrElse("fwdto", ""),
-        forwardFromNumber = cdr.getOrElse("frm", ""),
-        calledNumber = cdr.getOrElse("cdn", ""),
-        callingNumber = cdr.getOrElse("cgn", ""),
-        originalRecord = rawCdr))
-      stats.addSuccess()
-      someCdrVsa
+      val rawName: String = cdr("fn")
+
+      if (FeatureName.exists(rawName)) {
+        val someCdrVsa = Some(CdrVsa(name = FeatureName.withName(rawName),
+          featureTime = DateFormatter.parseDateAndTimeNoTimeZone(cdr("ft")),
+          legId = cdr.getOrElse("legid", ""),
+          forwardingReason = cdr.get("frson") match {
+            case Some(n) => ForwardingReason.forRawValue(n)
+            case None => ForwardingReason.UNDEFINED
+          },
+          status = cdr.get("frs") match {
+            case Some("0") => FeatureStatus.SUCCESS
+            case Some("1") => FeatureStatus.FAIL
+            case None => {
+              stats.addWarning()
+              LOG.warn("No feature status found, assuming fail")
+              FeatureStatus.FAIL
+            }
+          },
+          featureId = cdr("fid").toLong,
+          connectionId = cdr("fcid"),
+          forwardedNumber = cdr.getOrElse("fwdee", ""),
+          forwardSourceNumber = cdr.getOrElse("fwder", ""),
+          forwardToNumber = cdr.getOrElse("fwdto", ""),
+          forwardFromNumber = cdr.getOrElse("frm", ""),
+          calledNumber = cdr.getOrElse("cdn", ""),
+          callingNumber = cdr.getOrElse("cgn", ""),
+          originalRecord = rawCdr))
+        stats.addSuccess()
+        someCdrVsa
+      } else {
+        stats.addWarning()
+        LOG.warn("Unknown VSA name '%s'".format(rawName))
+        None
+      }
     }
   }
+
 }
